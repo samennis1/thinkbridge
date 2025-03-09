@@ -1,0 +1,246 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+ 
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+ 
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+ 
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+ 
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+ 
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight;
+  }
+}
+
+@layer utilities {
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: theme('colors.gray.100');
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: theme('colors.gray.300');
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: theme('colors.gray.400');
+}
+
+/* Modal Animation */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-enter {
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+/* Focus Styles */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+}
+
+/* Button Loading State */
+.btn-loading {
+  @apply relative !pl-8;
+}
+
+.btn-loading::before {
+  content: "";
+  @apply absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin rounded-full border-2 border-white border-t-transparent;
+}
+
+/* Card Hover Effect */
+.card-hover {
+  @apply transition-all duration-200 hover:shadow-lg hover:-translate-y-1;
+}
+
+/* Form Elements */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  @apply block w-full rounded-md border-input shadow-sm focus:border-ring focus:ring-ring sm:text-sm;
+}
+
+/* Typography */
+.heading-1 {
+  @apply text-4xl font-extrabold tracking-tight sm:text-5xl;
+}
+
+.heading-2 {
+  @apply text-3xl font-bold tracking-tight sm:text-4xl;
+}
+
+.heading-3 {
+  @apply text-2xl font-bold tracking-tight sm:text-3xl;
+}
+
+.body-large {
+  @apply text-lg leading-relaxed;
+}
+
+.body-base {
+  @apply text-base leading-relaxed;
+}
+
+.body-small {
+  @apply text-sm leading-relaxed;
+}
+
+/* Container */
+.container {
+  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+/* Grid */
+.grid-auto-fit {
+  @apply grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+}
+
+/* Transitions */
+.transition-base {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Shadows */
+.shadow-card {
+  @apply shadow-md hover:shadow-xl transition-shadow duration-200;
+}
+
+/* Status Badges */
+.badge {
+  @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+}
+
+.badge-success {
+  @apply bg-green-100 text-green-800;
+}
+
+.badge-warning {
+  @apply bg-yellow-100 text-yellow-800;
+}
+
+.badge-error {
+  @apply bg-red-100 text-red-800;
+}
+
+.badge-info {
+  @apply bg-blue-100 text-blue-800;
+}
+
+/* Tooltips */
+.tooltip {
+  @apply relative inline-block;
+}
+
+.tooltip-content {
+  @apply invisible absolute z-10 rounded-md bg-gray-900 px-2 py-1 text-xs text-white opacity-0 transition-opacity;
+}
+
+.tooltip:hover .tooltip-content {
+  @apply visible opacity-100;
+}
+
+/* Loading Skeletons */
+.skeleton {
+  @apply animate-pulse rounded bg-gray-200;
+}
+
+.skeleton-text {
+  @apply h-4 w-3/4 skeleton;
+}
+
+.skeleton-circle {
+  @apply h-12 w-12 rounded-full skeleton;
+}
+
+/* Responsive Images */
+.img-responsive {
+  @apply h-auto w-full object-cover;
+}
+
+/* Navigation */
+.nav-link {
+  @apply text-gray-600 hover:text-gray-900 transition-colors duration-200;
+}
+
+.nav-link-active {
+  @apply text-blue-600 font-medium;
+}
+
+/* Lists */
+.list-item {
+  @apply flex items-center space-x-3 py-2;
+}
+
+.list-item-hover {
+  @apply hover:bg-gray-50 rounded-lg transition-colors duration-200;
+}
+
+/* Dividers */
+.divider {
+  @apply h-px w-full bg-gray-200 my-4;
+}
+
+.divider-vertical {
+  @apply w-px h-full bg-gray-200 mx-4;
+}
