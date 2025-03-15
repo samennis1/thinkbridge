@@ -27,12 +27,12 @@ export function TaskModal({ taskId, onClose }: TaskModalProps) {
     taskId,
   });
 
-  const [assignedDocument, setAssignedDocument] = useState<any>(null);
+  const [assignedDocument, setAssignedDocument] = useState<Partial<Document> | null | undefined>(null);
 
   useEffect(() => {
     if (task?.documentId) {
-      const fetchedDocument = api.document.getDocument.useSuspenseQuery({
-        documentId: task?.documentId || 0,
+      const [fetchedDocument] = api.document.getDocument.useSuspenseQuery({
+        documentId: task?.documentId ?? 0,
       });
       setAssignedDocument(fetchedDocument);
     } else {
@@ -41,7 +41,7 @@ export function TaskModal({ taskId, onClose }: TaskModalProps) {
   }, [task]);
 
   const [documents] = api.project.getDocuments.useSuspenseQuery({
-    projectId: task?.projectId || 0,
+    projectId: task?.projectId ?? 0,
   });
 
   const [title, setTitle] = useState("");
@@ -57,21 +57,21 @@ export function TaskModal({ taskId, onClose }: TaskModalProps) {
 
   useEffect(() => {
     if (task) {
-      setTitle(task.title || "");
-      setDescription(task.description || "");
-      setStatus((task.status as TaskStatus) || TaskStatus.ToDo);
-      setPriority((task.priority as TaskPriority) || TaskPriority.Medium);
-      setPolicyHeader(task.policyHeader || "");
-      setPolicyContent(task.policyContent || "");
-      setRecommendedContent(task.recommendedContent || "");
-      setDocumentId(task.documentId || null);
+      setTitle(task.title ?? "");
+      setDescription(task.description ?? "");
+      setStatus((task.status as TaskStatus) ?? TaskStatus.ToDo);
+      setPriority((task.priority as TaskPriority) ?? TaskPriority.Medium);
+      setPolicyHeader(task.policyHeader ?? "");
+      setPolicyContent(task.policyContent ?? "");
+      setRecommendedContent(task.recommendedContent ?? "");
+      setDocumentId(task.documentId ?? null);
     }
   }, [task]);
 
   useEffect(() => {
     if (assignedDocument) {
-      setDocumentTitle(assignedDocument?.[0]?.title || "");
-      setDocumentLink(assignedDocument?.[0]?.fileUrl || "");
+      setDocumentTitle(assignedDocument?.title ?? "");
+      setDocumentLink("test.com");
     } else {
       setDocumentTitle("");
       setDocumentLink("");
@@ -159,7 +159,7 @@ export function TaskModal({ taskId, onClose }: TaskModalProps) {
 
           <div>
             <p className="text-sm font-medium">
-              Selected Document: {documentTitle || "None"}
+              Selected Document: {documentTitle ?? "None"}
             </p>
             <p
               className="cursor-pointer text-blue-600 underline"
@@ -181,7 +181,7 @@ export function TaskModal({ taskId, onClose }: TaskModalProps) {
               if (selectedDoc) {
                 setDocumentId(selectedDoc.id);
                 setDocumentTitle(selectedDoc.title);
-                setDocumentLink(selectedDoc.fileUrl || "");
+                setDocumentLink(selectedDoc.fileUrl ?? "");
               }
             }}
           >
