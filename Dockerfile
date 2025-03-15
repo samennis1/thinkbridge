@@ -5,9 +5,6 @@ FROM --platform=linux/amd64 node:18-alpine3.17 AS deps
 RUN apk add --no-cache libc6-compat openssl1.1-compat
 WORKDIR /app
 
-# Install Prisma Client and ensure schema is copied
-COPY prisma ./prisma
-
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml\* ./
 
@@ -27,11 +24,7 @@ WORKDIR /app
 
 # Copy node_modules and Prisma schema from deps stage
 COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/prisma ./prisma
 COPY . .
-
-# Run Prisma Client generation explicitly to avoid runtime issues
-RUN npx prisma generate --schema=./prisma/schema.prisma
 
 # Build the application
 RUN \
@@ -56,7 +49,6 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/prisma ./prisma
 
 # Ensure Prisma Client and other node modules are copied
 COPY --from=builder /app/node_modules ./node_modules
