@@ -17,6 +17,7 @@
     "lint:fix": "next lint --fix",
     "preview": "next build && next start",
     "start": "next start",
+    "run:prod": "npx prisma db push && node server.js",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
