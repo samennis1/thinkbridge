@@ -21,14 +21,18 @@ export const detailsRouter = createTRPCRouter({
         .where(eq(milestones.projectId, input.projectId))
         .execute();
 
-      const milestoneMap = new Map<number, any>();
+      type MilestoneWithTasks = typeof milestones.$inferSelect & { tasks: typeof tasks.$inferSelect[] };
+      const milestoneMap = new Map<number, MilestoneWithTasks>();
 
       milestonesWithTasks.forEach(({ milestone, task }) => {
         if (!milestoneMap.has(milestone.id)) {
           milestoneMap.set(milestone.id, { ...milestone, tasks: [] });
         }
         if (task) {
-          milestoneMap.get(milestone.id).tasks.push(task);
+          const milestoneData = milestoneMap.get(milestone.id);
+          if (milestoneData) {
+            milestoneData.tasks.push(task);
+          }
         }
       });
 
